@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const userModel = require("../models/User");
-const { serverThumb } = require("../botconfig.json");
+const { serverThumb, currency } = require("../botconfig.json");
 
 exports.run = async (bot, message, args) => {
   //if (!message.content.startsWith(botconfig.prefix)) return;
@@ -13,7 +13,7 @@ exports.run = async (bot, message, args) => {
     guildID: message.guild.id,
   });
 
-  if (isNaN(args[1])) return;
+  if (isNaN(args[1])) return message.channel.send("Example usage: \n```\naddmoney @user 50```");
   userDB.money += Number(args[1]);
   userDB.save();
 
@@ -29,7 +29,7 @@ exports.run = async (bot, message, args) => {
 
   message.channel.send(
     embed(
-      `👍︱You added **${args[1]}€** to **${user}**.\n\n 💵︱They now have: **${userDB.money}€**`,
+      `👍︱You added **${args[1]}**${currency} to **${user}**.\n\n 💵︱They now have: **${userDB.money}**${currency}`,
       "#ff0000"
     )
   );
