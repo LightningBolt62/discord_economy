@@ -13,9 +13,9 @@ exports.run = async (bot, message, args) => {
   let embed = (message, color) => {
     return new Discord.MessageEmbed()
       .setColor(color)
-      .setTitle("📊 Dostignuća")
-      .setThumbnail("https://i.ibb.co/Bg64Sr5/Statistika.png")
-      .setTimestamp(new Date())
+      .setTitle("📊 Achievements")
+      .setThumbnail(serverThumb)
+      .setTimestamp()
       .setFooter(author.username, author.avatarURL())
       .setDescription(message);
   };
@@ -68,7 +68,7 @@ exports.run = async (bot, message, args) => {
   let playedSlots = userDB.playedSlots;
   if (playedSlots <= 500) fields += `:smiling_imp:・ᴅᴇᴊᴀ ᴠᴜ (${playedSlots})\n`;
 
-  message.channel.send(embed(`**Korisnika: ${user}**\n\n${fields}`, "#ffff00"));
+  message.channel.send(embed(`**User: ${user}**\n\n${fields}`, "#ffff00"));
 };
 
 module.exports.help = {
