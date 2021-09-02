@@ -4,7 +4,7 @@ const { serverThumb } = require("../botconfig.json");
 
 exports.run = async (bot, message, args) => {
   //if (!message.content.startsWith(botconfig.prefix)) return;
-  if (!message.member.hasPermission("ADMINISTRATOR")) return;
+  if (!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("You need to have the 'Administrator' permission to use this");
 
   let user = message.mentions.members.first() || message.author;
   let author = message.author;
@@ -29,13 +29,13 @@ exports.run = async (bot, message, args) => {
 
   message.channel.send(
     embed(
-      `👍︱Dodali ste **${args[1]}€** korisniku **${user}** na račun.\n\n 💵︱Novi iznos računa: **${userDB.money}€**`,
+      `👍︱You added **${args[1]}€** to **${user}**.\n\n 💵︱They now have: **${userDB.money}€**`,
       "#ff0000"
     )
   );
 };
 
 module.exports.help = {
-  name: "add",
-  aliases: ["am"],
+  name: "addmoney",
+  aliases: ["addbal"],
 };
