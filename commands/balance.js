@@ -1,11 +1,11 @@
 const Discord = require("discord.js");
-const { serverThumb } = require("../botconfig.json");
+const { serverThumb, currency } = require("../botconfig.json");
 const userModel = require("../models/User");
 
 module.exports.run = async (bot, message, args, utils) => {
   //if (!message.content.startsWith(botconfig.prefix)) return;
 
-  let user = message.mentions.members.first() || message.author;
+  let user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.author;
   let author = message.author;
   const userDB = await userModel.findOne({
     ID: user.id,
@@ -16,14 +16,14 @@ module.exports.run = async (bot, message, args, utils) => {
     return new Discord.MessageEmbed()
       .setColor(color)
       .setThumbnail(serverThumb)
-      .setTimestamp(new Date())
+      .setTimestamp()
       .setFooter(author.username, author.avatarURL())
       .setDescription(message);
   };
 
   message.channel.send(
     embed(
-      `**✅︱Novčano stanje korisnika: ${user}**\n\n 💵︱**Džep:** ${userDB.money}€\n 💳︱**Bankovni račun:** ${userDB.bank}€`,
+      `**✅ | ${user}'s balance**\n\n 💵︱**Wallet:** ${userDB.money}${currency}\n 💳︱**Bank:** ${userDB.bank}${currency}`,
       "#ffff00"
     )
   );
