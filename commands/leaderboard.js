@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { serverThumb } = require("../botconfig.json");
+const { serverThumb, currency } = require("../botconfig.json");
 const userModel = require("../models/User");
 
 module.exports.run = async (bot, message, args) => {
@@ -10,8 +10,8 @@ module.exports.run = async (bot, message, args) => {
     return new Discord.MessageEmbed()
       .setColor(color)
       .setThumbnail(serverThumb)
-      .setTitle(`Statistika Ekonomije`)
-      .setTimestamp(new Date())
+      .setTitle(`Economy Leaderboard`)
+      .setTimestamp()
       .setFooter(user.username, user.avatarURL())
       .setDescription(message);
   };
@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
   if (!args[0])
     return message.channel.send(
       embed(
-        `**Opcije za prikaz statistike**\n\nNajbogatiji: leaderboard [money/bank]`,
+        `**Choose an option for displaying the leaderboard.**\n\nExample: ;leaderboard money/bank`,
         "#FFFFFF"
       )
     );
@@ -43,14 +43,14 @@ module.exports.run = async (bot, message, args) => {
         data.user = await bot.users.fetch(data.ID).then((userData) => {
           fields.push({
             name: userData.username,
-            value: `${data.money} **€**`,
+            value: `${data.money} **${currency}**`,
           });
         });
       });
 
       setTimeout(() => {
         message.channel.send(
-          embed(`TOP 10 Novac`, "#ffff00").addFields(fields)
+          embed(`TOP 10 Leaderboard (wallet)`, "#ffff00").addFields(fields)
         );
       }, 1000);
       break;
@@ -69,26 +69,26 @@ module.exports.run = async (bot, message, args) => {
         data.user = await bot.users.fetch(data.ID).then((userData) => {
           fields.push({
             name: userData.username,
-            value: `${data.bank} **€**`,
+            value: `${data.bank} **${currency}**`,
           });
         });
       });
 
       setTimeout(() => {
         message.channel.send(
-          embed(`TOP 10 Banka`, "#ffff00").addFields(fields)
+          embed(`TOP 10 Leaderboard (bank)`, "#ffff00").addFields(fields)
         );
       }, 1000);
       break;
 
     default:
       message.channel.send(
-        embed(`Izaberi tip statistike [money/bank]`, "#ffff00")
+        embed(`**Choose an option for displaying the leaderboard.**\n\nExample: ;leaderboard money/bank`, "#ffff00")
       );
       break;
   }
 };
 module.exports.help = {
   name: "leaderboard",
-  aliases: ["leader"],
+  aliases: ["lb"],
 };
