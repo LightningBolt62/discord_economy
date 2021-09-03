@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const ms = require("parse-ms");
-const { serverThumb } = require("../botconfig.json");
+const { serverThumb, currency } = require("../botconfig.json");
 const userModel = require("../models/User");
 
 module.exports.run = async (bot, message, args) => {
@@ -19,7 +19,7 @@ module.exports.run = async (bot, message, args) => {
     return new Discord.MessageEmbed()
       .setColor(color)
       .setThumbnail(serverThumb)
-      .setTimestamp(new Date())
+      .setTimestamp()
       .setFooter(user.username, user.avatarURL())
       .setDescription(message);
   };
@@ -29,14 +29,14 @@ module.exports.run = async (bot, message, args) => {
 
     message.channel.send(
       embed(
-        `**🎁 __ᴅɴᴇᴠɴɪ ʙᴏɴᴜꜱ__**\n\n👎︱Već ste pokupili svoj dnevni bonus.\n\n👉︱Vaš sljedeći dnevni bonus je za **${time.hours} **sat/i **${time.minutes} **minut/a **${time.seconds} **sekund/i`,
+        `**👎︱You have already claimed your daily reward.\n\n👉︱Come back again in **${time.hours} **hours, **${time.minutes} **minutes and **${time.seconds} **seconds to claim your next reward.`,
         "#ff0000"
       )
     );
   } else {
     message.channel.send(
       embed(
-        `**🎁 __ᴅɴᴇᴠɴɪ ʙᴏɴᴜꜱ__**\n\n👍︱Pokupili ste svoj dnevni bonus u iznosu od **${amount}€**`,
+        `**🎁 __𝙳𝚊𝚒𝚕𝚢 𝚁𝚎𝚠𝚊𝚛𝚍__**\n\n👍︱You have successfully claimed your daily reward of **${amount}${currency}**`,
         "#80ff00"
       )
     );
