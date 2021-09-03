@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const ms = require("parse-ms");
-const { serverThumb } = require("../botconfig.json");
+const { serverThumb, currency} = require("../botconfig.json");
 const userModel = require("../models/User");
 
 module.exports.run = async (bot, message, args) => {
@@ -18,9 +18,9 @@ module.exports.run = async (bot, message, args) => {
   let embed = (message, color) => {
     return new Discord.MessageEmbed()
       .setColor(color)
-      .setTitle("🙏 **__ᴘʀᴏꜱᴇɴᴊᴇ__**")
+      .setTitle("🙏 **__𝙱𝚎𝚐𝚐𝚒𝚗𝚐__**")
       .setThumbnail(serverThumb)
-      .setTimestamp(new Date())
+      .setTimestamp()
       .setFooter(user.username, user.avatarURL())
       .setDescription(message);
   };
@@ -30,13 +30,13 @@ module.exports.run = async (bot, message, args) => {
 
     message.channel.send(
       embed(
-        `**👎︱Već si prosio!**\n✋︱Pokušaj ponovo za **${time.minutes}** minut/a **${time.seconds}** sekund/i`,
+        `**👎︱You already begged!**\n✋︱Try again in **${time.minutes}** minutes & **${time.seconds}** seconds`,
         "#ff0000"
       )
     );
   } else {
     message.channel.send(
-      embed(`👍︱Prosio si i zaradio si **${amount}$**`, "#80ff00")
+      embed(`👍︱You begged for money and earned **${amount}${currency}**`, "#80ff00")
     );
 
     userDB.money += Number(amount);
