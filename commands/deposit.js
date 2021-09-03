@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const { serverThumb } = require("../botconfig.json");
+const { serverThumb, currency} = require("../botconfig.json");
 const userModel = require("../models/User");
 
 module.exports.run = async (bot, message, args) => {
@@ -15,7 +15,7 @@ module.exports.run = async (bot, message, args) => {
     return new Discord.MessageEmbed()
       .setColor(color)
       .setThumbnail("https://i.ibb.co/WPS2KHY/Polaganje-Novca.png")
-      .setTimestamp(new Date())
+      .setTimestamp()
       .setFooter(user.username, user.avatarURL())
       .setDescription(message);
   };
@@ -26,7 +26,7 @@ module.exports.run = async (bot, message, args) => {
     if (money === 0)
       return message.channel.send(
         embed(
-          "\n**🏛 __ᴅɪᴀᴍᴏɴᴅ ʙᴀɴᴋᴀ__**\n\n👎︱Nemate dovoljno novca za polog!",
+          "\n👎︱You don't have any money to deposit!",
           "#ff0000"
         )
       );
@@ -37,7 +37,7 @@ module.exports.run = async (bot, message, args) => {
 
     message.channel.send(
       embed(
-        "\n**🏛 __ᴅɪᴀᴍᴏɴᴅ ʙᴀɴᴋᴀ__**\n\n👍︱Uspješno ste položili sav svoj novac u banku!",
+        `\n👍︱You have successfully deposited ${money}${currency} in the bank!`,
         "#80ff00"
       )
     );
@@ -46,30 +46,30 @@ module.exports.run = async (bot, message, args) => {
       return message.channel
         .send(
           embed(
-            "\n**🏛 __ᴅɪᴀᴍᴏɴᴅ ʙᴀɴᴋᴀ__**\n\n✍️︱Upišite količinu koju želite da položite!",
+            "\n✍️︱Enter the amount of money you want to deposit!",
             "#ffc83d"
           )
         )
         .catch((err) => console.log(err));
     }
 
-    let numberPattern = new RegExp("^[0-9]+$");
+    let numberPattern = new RegExp("^[0-9]+$<:>");
     if (!numberPattern.test(args[0])) {
       return message.channel.send(
         embed(
-          `\n**💸 __ᴛʀᴀɴꜱꜰᴇʀ ɴᴏᴠᴄᴀ__**\n\n✍️︱Upišite vašu količinu bez simbola!`,
+          `\n✍️︱Enter your quantity without any symbols or emojis!`,
           "#ffc83d"
         )
       );
     }
 
     if (money < args[0]) {
-      return message.channel.send(embed("👎︱Nemate toliko novca!", "#ff0000"));
+      return message.channel.send(embed("👎︱You don't have that much money to deposit!", "#ff0000"));
     }
 
     message.channel.send(
       embed(
-        `\n**🏛 __ᴅɪᴀᴍᴏɴᴅ ʙᴀɴᴋᴀ__**\n\n👍︱Uspješno ste položili **${args[0]}$** u banku!`,
+        `\n👍︱Successfully deposited **${args[0]}${currency}** to your bank!`,
         "#80ff00"
       )
     );
@@ -86,13 +86,12 @@ module.exports.run = async (bot, message, args) => {
   if (bankMoney >= "100000000" && !reachMoon) {
     userDB.achievements.push({ name: "Reach for the Moon", value: true });
 
-    role = message.guild.roles.cache.find((r) => r.id === "799300357553127445");
-    message.guild.members.cache.get(user.id).roles.add(role);
+    
 
     message.channel.send({
       embed: {
-        title: `**NOVO DOSTIGNUĆE!**`,
-        description: `🥳 **ČESTITAMO TI!** 🥳\n\n🏆 | Imas više od ***100.000.000€*** na banci.\n🔓 | Otključao si "***Reach for the Moon***"`,
+        title: `**ACHIEVEMENT UNLOCKED!**`,
+        description: `🥳 **CONGRATULATIONS!** 🥳\n\n🏆 | You have more than ***100,000,000${currency}*** in your bank.\n🔓 | You unlocked the achievement "***Reach for the Moon***"`,
         color: 0x00ff00,
       },
     });
@@ -104,13 +103,11 @@ module.exports.run = async (bot, message, args) => {
   if (bankMoney >= "1000000000" && !reachSky) {
     userDB.achievements.push({ name: "Reach for the Sky", value: true });
 
-    role = message.guild.roles.cache.find((r) => r.id === "799301358208942081");
-    message.guild.members.cache.get(user.id).roles.add(role);
-
+    
     message.channel.send({
       embed: {
-        title: `**NOVO DOSTIGNUĆE!**`,
-        description: `🥳 **ČESTITAMO TI!** 🥳\n\n🏆 | Imas više od ***1.000.000.000€*** na banci.\n🔓 | Otključao si "***Reach for the Sky***"`,
+        title: `**ACHIEVEMENT UNLOCKED!**`,
+        description: `🥳 **CONGRATULATIONS!** 🥳\n\n🏆 | You have more than ***1,000,000,000${currency}*** in your bank.\n🔓 | You unlocked the achievement "***Reach for the Sky***"`,
         color: 0x00ff00,
       },
     });
@@ -122,13 +119,11 @@ module.exports.run = async (bot, message, args) => {
   if (bankMoney >= "10000000000" && !reachStars) {
     userDB.achievements.push({ name: "Reach for the Stars", value: true });
 
-    role = message.guild.roles.cache.find((r) => r.id === "799301358376976424");
-    message.guild.members.cache.get(user.id).roles.add(role);
-
+    
     message.channel.send({
       embed: {
-        title: `**NOVO DOSTIGNUĆE!**`,
-        description: `🥳 **ČESTITAMO TI!** 🥳\n\n🏆 | Imas više od ***10.000.000.000€*** na banci.\n🔓 | Otključao si "***Reach for the Stars***"`,
+        title: `**ACHIEVEMENT UNLOCKED!**`,
+        description: `🥳 **CONGRATULATIONS!** 🥳\n\n🏆 | You have more than ***10,000,000,000${currency}*** in your bank.\n🔓 | You unlocked the achievement "***Reach for the Stars***"`,
         color: 0x00ff00,
       },
     });
